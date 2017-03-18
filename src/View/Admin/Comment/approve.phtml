@@ -1,0 +1,57 @@
+<h1>Comment list</h1>
+<hr>
+
+<nav aria-label="Page navigation" style="text-align: center; clear: both ">
+    <ul class="pagination">
+        <?php foreach ($pagination as $button) :?>
+            <?php if ($button->current) : ?>
+                <li class = "active"><a href="?page=<?=$button->page?>"><?=$button->text?></a></li>
+            <?php elseif($button->page==='...'): ?>
+                <li class='disabled'><a href="#"><?=$button->text?></a></li>
+            <?php elseif($button->isActive) : ?>
+                <li><a href="?page=<?=$button->page?>"><?=$button->text?></a></li>
+            <?php else : ?>
+                <li class='disabled'><a href="#"><?=$button->text?></a></li>
+            <?php endif;
+        endforeach; ?>
+
+    </ul>
+</nav>
+
+<table class="table table-striped" >
+    <thread>
+        <tr class="bg-warning">
+            <th>
+                ID
+            </th>
+            <th>Message</th>
+            <th>Date</th>
+            <th>Mark</th>
+            <th>Visible</th>
+
+            <th colspan="2" style="text-align: center">Actions</th>
+
+        </tr>
+    </thread>
+    <tbody>
+
+    <?php foreach ($comments as $comment):?>
+        <tr>
+            <td><?= $comment->getId()?></td>
+            <td><?= $comment->getMessage()?></td>
+            <td><?= $comment->getDate()?></td>
+            <td><?= $comment->getMark()?></td>
+            <td><?= $comment->getVisible()?></td>
+
+            <td style="text-align: center">
+                <a href="/admin/approve/<?=$comment->getId()?>">
+                    <button type = "button" class = "btn">
+                        APPROVE
+                    </button>
+                </a>
+            </td>
+        </tr>
+    <?php endforeach;?>
+    </tbody>
+</table>
+

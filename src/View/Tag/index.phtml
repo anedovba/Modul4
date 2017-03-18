@@ -1,0 +1,14 @@
+
+<h1>News</h1>
+
+<h2>#<?=$tag?></h2>
+
+<ul>
+
+    <?php foreach ($posts as $post) : ?>
+        <li>
+            <a href="/post/<?=$post->getId()?>"><?=$post->getTitle()?></a>
+        </li>
+    <?php endforeach;?>
+
+</ul>

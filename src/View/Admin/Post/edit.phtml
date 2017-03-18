@@ -1,0 +1,25 @@
+<h1><?=$form->fTitle?></h1>
+
+<form method="post">
+    <input type="hidden" name="id" value="<?=$form->id!==null?$form->id:''?>">
+
+    Title: <input type="text" name="title" class="form-control" value="<?=$form->title?>"> <br>
+    Post: <textarea name="post" id="" cols="30" rows="5" class="form-control" value=""><?=$form->post?></textarea><br>
+    Date: <input type="text" name="date" class="form-control" value="<?=$form->date?>"> <br>
+    Views: <input type="text" name="views" class="form-control" value="<?=$form->views?>"> <br>
+    Categories: <select name='categories' size="1" class="form-control">
+        <?php foreach ($form->categories as $id=>$category):?>
+            <?php if($id+1==$form->categoryId):?>
+            <option selected><?=$category->getName()?></option>
+            <?php else:?>
+            <option><?=$category->getName()?></option>
+        <?php endif;
+        endforeach;?>
+    </select>
+    <br>
+    Analitics: <input type="checkbox" name="analitics" class="checkbox" <?= $form->analitics?'checked':''?>><br><br>
+    Picture (only url, sorry): <input type="text" name="picture" class="form-control" value="<?=$form->picture?>"> <br>
+    Tag (через ', '): <input type="text" name="tag" class="form-control" value="<?=$form->tag?>"> <br>
+    <button class="btn btn-default" type="submit" name="submit">GO</button>
+</form>
+

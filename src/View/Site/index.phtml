@@ -1,0 +1,94 @@
+<div class="examplecarusel pull-center">
+    <div id="myCarousel2" class="carousel slide pull-center" data-interval="3000" data-ride="carousel">
+        <!-- Слайды карусели -->
+        <div class="carousel-inner pull-center" style="max-width: 600px; margin: 0 auto">
+            <!-- 1 слайд -->
+
+            <div class="active item">
+                <a href="/post/<?=$posts[0]->getId()?>"><img src="<?=$posts[0]->getPicture()?>" alt="<?=$posts[0]->getTitle()?>" style="margin: auto" ></a>
+                <h2></h2>
+                <div class="carousel-caption">
+                    <h3><?=$posts[0]->getTitle()?></h3>
+                </div>
+            </div>
+            <div class="item">
+                <a href="/post/<?=$posts[1]->getId()?>"><img src="<?=$posts[1]->getPicture()?>" alt="<?=$posts[1]->getTitle()?>" style="margin: auto" ></a>
+                <h2></h2>
+                <div class="carousel-caption">
+                    <h3><?=$posts[1]->getTitle()?></h3>
+                </div>
+            </div>
+            <div class="item">
+                <a href="/post/<?=$posts[2]->getId()?>"><img src="<?=$posts[2]->getPicture()?>" alt="<?=$posts[2]->getTitle()?>" style="margin: auto" ></a>
+                <h2></h2>
+                <div class="carousel-caption">
+
+                    <h3><?=$posts[2]->getTitle()?></h3>
+                </div>
+            </div>
+            <div class="item">
+                <a href="/post/<?=$posts[3]->getId()?>"><img src="<?=$posts[3]->getPicture()?>" alt="<?=$posts[3]->getTitle()?>" style="margin: auto" ></a>
+                <h2></h2>
+                <div class="carousel-caption">
+
+                    <h3><?=$posts[3]->getTitle()?></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Кнопки управления -->
+    <div style="margin-top: 20px; text-align:center;">
+        <button class="btn  prev-slide"><span class="glyphicon glyphicon-chevron-left "></span></button>
+        <button class="btn  next-slide"><span class="glyphicon glyphicon-chevron-right "></span></button>
+
+
+    </div>
+
+<hr>
+
+<div class="row">
+        <ul>
+            <?php foreach ($categorys as $category) : ?>
+                <li>
+                   <h3> <a href="/category/<?= $category->getId()?>"><?= $category->getName()?></a></h3>
+                    <?php $limit=0; ?>
+                        <?php foreach ($posts as $post) : ?>
+                            <?php if ($post->getCategory()->getId()==$category->getId() and $limit<5) : ?>
+                                <ul>
+                                    <li>
+                                        <a href="/post/<?= $post->getId()?>"> <?= $post->getTitle(); ?></a>
+                                        <?php $limit+=1; ?>
+                                    </li>
+                                </ul>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+</div>
+
+    <hr>
+
+    <h3>Топ 5 комментаторов</h3>
+    <ul>
+
+
+        <?php foreach ($topUsers as $topUser) : ?>
+        <li>
+<!--            --><?php //dump($topUser->getEmail());?>
+            <a href="/comment/<?=$topUser->getId()?>"><?=$topUser->getEmail()?></a>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+
+
+    <hr>
+
+    <h3>Топ 3 новостей</h3>
+    <ul>
+        <?php foreach ($topPosts as $topPost) : ?>
+            <li>
+                <a href="/post/<?=$topPost->getId()?>"><?=$topPost->getTitle();?></a>
+            </li>
+        <?php endforeach; ?>
+    </ul>

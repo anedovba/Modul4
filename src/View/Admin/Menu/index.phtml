@@ -1,0 +1,69 @@
+
+
+<h3>Edit menu</h3>
+
+
+<a href="/admin/menu/add/">
+    <button type = "button" class = "btn btn-primary btn-lg" style="float: right">
+        ADD NEW MENU
+    </button>
+</a>
+
+<nav aria-label="Page navigation" style="text-align: center; clear: both ">
+    <ul class="pagination">
+        <?php foreach ($pagination as $button) :?>
+            <?php if ($button->current) : ?>
+                <li class = "active"><a href="?page=<?=$button->page?>"><?=$button->text?></a></li>
+            <?php elseif($button->page==='...'): ?>
+                <li class='disabled'><a href="#"><?=$button->text?></a></li>
+            <?php elseif($button->isActive) : ?>
+                <li><a href="?page=<?=$button->page?>"><?=$button->text?></a></li>
+            <?php else : ?>
+                <li class='disabled'><a href="#"><?=$button->text?></a></li>
+            <?php endif;
+        endforeach; ?>
+
+    </ul>
+</nav>
+
+
+<table class="table table-striped" >
+    <thread>
+        <tr class="bg-warning">
+            <th>
+                ID
+            </th>
+            <th>Title</th>
+            <th>Parent</th>
+            <th colspan="2" style="text-align: center">Actions</th>
+
+        </tr>
+    </thread>
+    <tbody>
+
+    <?php foreach ($menu as $item):?>
+        <tr>
+            <td ><?= $item->getId()?></td>
+            <td ><?= $item->getTitle()?></td>
+            <td ><?= $item->getParent()?></td>
+
+            <td style="text-align: center">
+                <a href="/admin/menu/edit/<?=$item->getId()?>">
+                    <button type = "button" class = "btn">
+                        Edit
+                    </button>
+                </a>
+            </td>
+            <td>
+                <a href="/admin/menu/delete/<?=$item->getId()?>">
+                    <button type = "button" class = "btn delete">
+                        Delete
+                    </button>
+                </a>
+            </td>
+        </tr>
+    <?php endforeach;?>
+    </tbody>
+</table>
+
+

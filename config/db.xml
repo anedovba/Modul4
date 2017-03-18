@@ -1,0 +1,7 @@
+<db>
+    <dbhost>localhost</dbhost>
+    <dbuser>root</dbuser>
+    <dbpass/>
+    <dbname>news_db</dbname>
+    <dbcharset>utf8</dbcharset>
+</db>

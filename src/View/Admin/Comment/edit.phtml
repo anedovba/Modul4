@@ -1,0 +1,17 @@
+<h1><?=$form->fTitle?></h1>
+<?php //dump($form)?>
+<form method="post">
+    <input type="hidden" name="id" value="<?=$form->id!==null?$form->id:''?>">
+
+    Message: <input type="text" name="message" class="form-control" value="<?=$form->message?>"> <br>
+
+                         Date: <input type='text'name="date" class="form-control" value="<?=$form->date?>"/><br>
+
+    Mark: <input type="text" name="mark" class="form-control" value="<?=$form->mark?>"> <br>
+    Visible: <input type="checkbox" name="visible" class="checkbox" <?= $form->visible?'checked':''?>><br><br>
+
+
+
+    <button class="btn btn-default" type="submit" name="submit">GO</button>
+</form>
+

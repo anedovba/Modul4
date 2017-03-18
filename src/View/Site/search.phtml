@@ -1,0 +1,43 @@
+
+<h1>Выберите параметры поиска новости</h1>
+
+<div class="container-fluid content">
+    <div class="row">
+        <form action="" method="get">
+            <div class="col-md-6 center">
+                <h2>Категории</h2>
+                <?php foreach ($categorys as $category):?>
+                    <p>
+
+                        <input type="checkbox" name="category-<?= $category->getId();?>" value="<?php echo $category->getName()?>">
+                        <span><?php echo $category->getName();?></span>
+                    </p>
+                <?php endforeach;?>
+            </div>
+
+            <div class="col-md-6 center">
+                <h2>Выбор даты</h2>
+                <b>С:&nbsp;&nbsp;</b>
+                <input type="date" name="date_start" />
+                <br><br>
+                <b>По:</b>
+                <input type="date" name="date_end" />
+            </div>
+
+            <div class="col-md-12 center">
+                <h2>Тэги</h2>
+                <?php foreach ($tags as $tag):?>
+                    <span>
+                        <input type="checkbox" name="tags[]" value="<?php echo $tag?>" />
+                        <span><?php echo $tag;?></span>
+                    </span>
+                <?php endforeach;?>
+            </div>
+
+            <div class="col-md-12 center"><input type="submit" name="filter" value="Поиск"  class="btn btn-info"/></div>
+
+        </form>
+
+
+    </div>
+</div>

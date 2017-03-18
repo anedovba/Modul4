@@ -1,0 +1,13 @@
+<link href="/css/style.css" rel="stylesheet">
+<h1>Contact me</h1>
+
+<div class="alert-box"></div>
+<div class="ajax-spinner" id="spinner-load"></div>
+
+<form method="post" id='contact-form'>
+    Username: <input id='username'  class="form-control" type="text" name="username" value="<?=$form->username?>"><br>
+    Email: <input id='email' class="form-control" type="email" name="email" value="<?=$form->email?>"><br>
+    <textarea  id='message' class="form-control" name="message"><?=$form->message?></textarea><br>
+    <button class="btn btn-success">Go</button>
+</form>
+

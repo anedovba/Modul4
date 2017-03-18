@@ -1,0 +1,70 @@
+<h1>Books list</h1>
+<hr>
+<a href="/admin/post/edit/">
+<button type = "button" class = "btn btn-primary btn-lg" style="float: right">
+    ADD NEW POST
+</button>
+</a>
+
+<nav aria-label="Page navigation" style="text-align: center; clear: both ">
+    <ul class="pagination">
+        <?php foreach ($pagination as $button) :?>
+            <?php if ($button->current) : ?>
+                <li class = "active"><a href="?page=<?=$button->page?>"><?=$button->text?></a></li>
+            <?php elseif($button->page==='...'): ?>
+                <li class='disabled'><a href="#"><?=$button->text?></a></li>
+            <?php elseif($button->isActive) : ?>
+                <li><a href="?page=<?=$button->page?>"><?=$button->text?></a></li>
+            <?php else : ?>
+                <li class='disabled'><a href="#"><?=$button->text?></a></li>
+            <?php endif;
+        endforeach; ?>
+
+    </ul>
+</nav>
+
+
+<table class="table table-striped table-responsive" >
+    <thread>
+        <tr class="bg-warning">
+            <th colspan="2" style="text-align: center">Actions</th>
+            <th>
+                ID
+            </th>
+            <th>Title</th>
+            <th>Post</th>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Analitics</th>
+            <th>Picture</th>
+            <th>Tag</th>
+
+        </tr>
+    </thread>
+    <tbody>
+
+    <?php foreach ($posts as $post):?>
+        <tr>
+            <td style="text-align: center">
+                <a href="/admin/post/edit/<?=$post->getId()?>"><button type = "button" class = "btn">
+                        Edit
+                    </button></a> </td>
+            <td>
+                <a href="/admin/post/delete/<?=$post->getId()?>"><button type = "button" class = "btn delete">
+                        Delete
+                    </button></a>
+            </td>
+            <td ><?= $post->getId()?></td>
+            <td ><?= $post->getTitle()?></td>
+            <td style="min-width: 600px" ><?= $post->getPost()?></td>
+            <td ><?= $post->getDate()?></td>
+            <td ><?= $post->getCategory()->getName()?></td>
+            <td ><?= $post->getAnalitics()?></td>
+            <td ><?= $post->getPicture()?></td>
+            <td ><?= $post->getTag()?></td>
+
+        </tr>
+    <?php endforeach;?>
+    </tbody>
+</table>
+

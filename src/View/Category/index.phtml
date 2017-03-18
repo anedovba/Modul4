@@ -1,0 +1,28 @@
+
+<h1>News list</h1>
+<h2><?=$category->getName()?></h2>
+
+<hr>
+    <ul>
+        <?php foreach ($posts as $post) : ?>
+        <li>
+            <a href="/post/<?=$post->getId()?>"><?=$post->getTitle()?></a>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+<nav aria-label="Page navigation" style="text-align: center">
+    <ul class="pagination">
+        <?php foreach ($pagination as $button) :?>
+            <?php if ($button->current) : ?>
+                <li class = "active"><a href="?page=<?=$button->page?>"><?=$button->text?></a></li>
+            <?php elseif($button->page==='...'): ?>
+                <li class='disabled'><a href="#"><?=$button->text?></a></li>
+            <?php elseif($button->isActive) : ?>
+                <li><a href="?page=<?=$button->page?>"><?=$button->text?></a></li>
+            <?php else : ?>
+                <li class='disabled'><a href="#"><?=$button->text?></a></li>
+            <?php endif;
+        endforeach; ?>
+
+    </ul>
+</nav>

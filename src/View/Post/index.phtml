@@ -1,0 +1,204 @@
+
+<h1>News</h1>
+
+<h2 id="post-id" style="display: none"><?=$post->getId()?></h2>
+
+<h2><?=$post->getTitle()?></h2>
+
+
+<hr>
+<p>
+    <img class="img-responsive pull-left" style="margin: 0px 15px 15px 0; max-width: 300px" src="<?=$post->getPicture()?>"> <?=$post->getPost()?>
+</p>
+
+<?php if(\Library\Session::has(\Library\Session::FLASH_KEY)):?>
+    <div class="alert alert-danger">
+        <?=\Library\Session::getFlash()?>
+    </div>
+<?php endif;?>
+
+<hr>
+<div class="read-statistic">
+    <p>Сейчас читают эту новость: <span id="reading-now">0</span></p>
+    <p>Прочитали за все время: <span id="total-read"><?=$post->getViews()?></span></p>
+</div>
+<?php //dump($tags) ?>
+<?php foreach ($tags as $tag) : ?>
+    <a href="/tag/<?=$tag?>"><button type="button" class="btn btn-default"><?=$tag?></button></a>
+<?php endforeach;?>
+
+<hr>
+<h3>Комментарии</h3>
+<div class="alert-box"></div>
+<?php if (!\Library\Session::has('user')):?>
+    <div class="alert alert-success">
+        <a href="/login">Войдите</a>,что бы оставлять комментарии
+    </div>
+<?php else: ?>
+    <div class="ajax-spinner" id="spinner-load"></div>
+    <form action="" method="post" id='comment-form'>
+        <textarea  id='message' class="form-control" name="message"></textarea>
+        <br>
+        <input type='hidden' name='post_id' value="<?=$post->getId()?>">
+        <input type='hidden' name='parent_id' value="null">
+    <?php if ($post->getCategory()->getId()==1): ?>
+        <input type='hidden' name='visible' value="0">
+        <?php else: ?>
+        <input type='hidden' name='visible' value="1">
+    <?php endif; ?>
+        <input type='hidden' name='user_id' value="<?=\Library\Session::get('user_id')?>">
+
+        <button class="btn btn-success">Отправить</button>
+        <br>
+    </form>
+
+<hr>
+
+<?php if(!$comments):?>
+    <div class="alert alert-info">
+        Ваш комментарий будет первый
+    </div>
+<?php endif;?>
+
+<?php foreach($comments as $comment): ?>
+    <?php if($comment->getParentId()==NULL):?>
+        <?php foreach($users as  $user): ?>
+            <?php foreach($user as  $key=>$val): ?>
+                <?php if((int)$comment->getId()==$key):?>
+                    <div class="well">
+                        <div class="page-header">
+                            <h4><?= $val->getEmail();?> оставил комментарий <small><?= $comment->getDate(); ?></small></h4>
+                        </div>
+                        <div class="page-body" id="main-comment-<?=$comment->getId(); ?>" style="padding: 15px; background-color: #fff">
+                            <?=$comment->getMessage(); ?>
+                        </div>
+                        <div class="page-header">
+                            <p>Рейтинг: <span id="mark-<?=$comment->getId(); ?>"><?= $comment->getMark(); ?></span></p>
+                        </div>
+                        <input type="submit" name="like" class="btn btn-s btn-success like" id="comment-like-<?=$comment->getId(); ?>" value="Нравится">
+                        <input type="submit" name="dislike" class="btn btn-s btn-danger dislike" id="comment-dislike-<?=$comment->getId(); ?>" value="Не нравится">
+                        <br>
+                        <br>
+                        <input type="button" class="btn btn-default answer" id="btn-<?=$comment->getId();?>" value="ответить">
+                        <br>
+                        <br>
+                        <div id="alert-box-<?=$comment->getId();?>"></div>
+                        <div id="answer-<?=$comment->getId();?>" style="display: none">
+                            <form method="post" id="answer-form-<?=$comment->getId();?>">
+                                <textarea  id='message-answer-<?=$comment->getId();?>' class="form-control" name="message"></textarea>
+                                <br>
+                                <input type='hidden' name='post_id' value="<?=$post->getId()?>">
+                                <input type='hidden' name='parent_id' value="<?=$comment->getId(); ?>">
+                                <?php if ($post->getCategory()->getId()==1): ?>
+                                    <input type='hidden' name='visible' value="0">
+                                <?php else: ?>
+                                    <input type='hidden' name='visible' value="1">
+                                <?php endif; ?>
+                                <input type='hidden' name='user_id' value="<?=\Library\Session::get('user_id')?>">
+
+                                <button class="btn btn-success">Отправить</button>
+                                <br>
+                            </form>
+                        </div>
+
+                <?php if (isset($_COOKIE['newComment'.$comment->getId()])):?>
+                    <button class="btn btn-default change" id="btn-change-<?=$comment->getId();?>">Изменить ваш комментарий</button>
+                    <br>
+                    <br>
+                    <div id="change-<?=$comment->getId();?>" style="display: none">
+                        <form method="post" id="change-form-<?=$comment->getId();?>">
+                            <textarea  id='message-change-<?=$comment->getId();?>' class="form-control" name="message" placeholder="<?=$comment->getMessage();?>"></textarea>
+                            <input type='hidden' name='id' value="<?=$comment->getId();?>">
+                            <br>
+                            <button class="btn btn-success">Сохранить</button>
+                            <br>
+                        </form>
+                    </div>
+                <?php endif;?>
+
+
+                        <?php foreach($comments as  $comment2): ?>
+<!--                            <?php dump($comments)?>-->
+                            <?php if($comment2->getParentId()==$comment->getId()):?>
+                                <?php foreach($users as  $user2): ?>
+                                    <?php foreach($user2 as $k=>$v): ?>
+                                        <?php if((int)$comment2->getId()==$k):?>
+                                            <div class="well">
+                                                <div class="page">
+                                                    <h4><?= $v->getEmail();?> оставил ответ на комментарий <small><?= $comment2->getDate(); ?></small></h4>
+                                                </div>
+                                                <div class="page-body" id="main-comment-<?=$comment2->getId(); ?>" style="padding: 15px; background-color: #fff">
+                                                    <?=$comment2->getMessage(); ?>
+
+                                                </div>
+                                                <div class="page">
+                                                    <p>Рейтинг: <span id="mark-<?=$comment2->getId(); ?>"><?= $comment2->getMark(); ?></span></p>
+                                                </div>
+                                                <input type="submit" name="like" class="btn btn-s btn-success like" id="comment-like-<?=$comment2->getId(); ?>" value="Нравится">
+                                                <input type="submit" name="dislike" class="btn btn-s btn-danger dislike" id="comment-dislike-<?=$comment2->getId(); ?>" value="Не нравится">
+                                                <br>
+                                                <br>
+
+                                                <?php if (isset($_COOKIE['newComment'.$comment2->getId()])):?>
+                                                    <button class="btn btn-default change" id="btn-change-<?=$comment2->getId();?>">Изменить ваш комментарий</button>
+                                                    <br>
+                                                    <br>
+                                                    <div id="change-<?=$comment2->getId();?>" style="display: none">
+                                                        <form method="post" id="change-form-<?=$comment2->getId();?>">
+                                                            <textarea  id='message-change-<?=$comment2->getId();?>' class="form-control" name="message" placeholder="<?=$comment2->getMessage();?>"></textarea>
+                                                            <input type='hidden' name='id' value="<?=$comment2->getId();?>">
+                                                            <br>
+                                                            <button class="btn btn-success">Сохранить</button>
+                                                            <br>
+                                                        </form>
+                                                    </div>
+
+                                                <?php endif;?>
+
+                                            </div>
+                                        <?php endif;?>
+                                    <?php endforeach;?>
+                                <?php endforeach;?>
+                            <?php endif;?>
+                        <?php endforeach;?>
+
+
+
+
+                    </div>
+                <?php endif;?>
+            <?php endforeach;?>
+        <?php endforeach;?>
+    <?php endif;?>
+
+
+
+
+
+
+<?php endforeach;?>
+<?php endif;?>
+
+<script>
+ var readNow = Math.floor((Math.random() * 5)+1);
+        var readTotal = parseInt($('#total-read').text());
+        $('#reading-now').text(readNow);
+
+        function saveViews() {
+
+            readTotal += readNow;
+            var id=$("#post-id").text();
+            var udateData=String(readTotal)+"_"+id;
+            $.get('/post/viewupdate/'+udateData);
+        }
+
+        setInterval(function(){
+            $('#total-read').text(readTotal);
+            readNow = Math.floor((Math.random() * 5)+1);
+            $('#reading-now').text(readNow);
+            saveViews();
+        }, 3000);
+</script>
+
+
+

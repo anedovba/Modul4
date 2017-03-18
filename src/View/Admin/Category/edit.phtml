@@ -1,0 +1,11 @@
+<h1><?=$form->fTitle?></h1>
+
+<form method="post">
+    <input type="hidden" name="id" value="<?=$form->id!==null?$form->id:''?>">
+
+    Name: <input type="text" name="name" class="form-control" value="<?=$form->name?>"> <br>
+
+
+    <button class="btn btn-default" type="submit" name="submit">GO</button>
+</form>
+

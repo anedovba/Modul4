@@ -1,0 +1,22 @@
+<h1><?=$form->fTitle?></h1>
+
+<form method="post">
+    <input type="hidden" name="id" value="<?=$form->id!==null?$form->id:''?>">
+
+    Id: <input type="text" name="id" class="form-control" value="<?=$form->id?>" disabled> <br>
+    Title: <input type="text" name="title" class="form-control" value="<?=$form->title?>"> <br>
+    Parent: <select name='parent' size="1" class="form-control">
+        <?php foreach ($form->menu as $id=>$item):?>
+            <?php if($id+1==$form->parent_id):?>
+            <option selected><?=$item->getTitle()?> <label style="display: none"><?=$item->getId()?></label></option>
+            <?php else:?>
+            <option><?=$item->getTitle()?> <?=$item->getId()?></option>
+
+        <?php endif;
+        endforeach;?>
+
+    </select>
+    <br>
+    <button class="btn btn-default" type="submit" name="submit">GO</button>
+</form>
+
